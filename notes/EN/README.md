@@ -9,8 +9,8 @@
 
 - `tsconfig.json` - module option
 
-  - `module: "esnext"` -> `module: "commonjs"`
-    it allows you to write code like `import React from 'react';`
+  - `module: "esnext"` -> `module: "commonjs"` <br>
+    it allows you to write code like `import React from 'react';` <br>
     instead of `import * as React from 'react';`
 
 - adjusted `tsconfig.json`
