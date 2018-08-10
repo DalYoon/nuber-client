@@ -180,7 +180,7 @@ ApolloClient({
 
 ## section.log
 
-- How to get data from `auth` resolver(that we made) in `apollo client`
+- How to get data from `auth` resolver(that we made) in `cache`
 
 ## tips
 
@@ -191,6 +191,29 @@ ApolloClient({
 ## added dependencies
 
 ### dependencies
+
+### devDependencies
+
+---
+
+# 2.6 Typescript and React Components
+
+## section.log
+
+- very important lecture
+- how to define `type` for `React Component`
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+- prop-types
 
 ### devDependencies
 

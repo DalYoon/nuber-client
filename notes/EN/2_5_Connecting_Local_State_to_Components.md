@@ -2,7 +2,7 @@
 
 ## section.log
 
-- How to get data from `auth` resolver(that we made) in `apollo client`
+- How to get data from `auth` resolver(that we made) in `cache`
 
 ## tips
 
