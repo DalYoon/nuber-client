@@ -25,4 +25,5 @@ This note is created by taking the lecture below<br>
     - [ ] Settings
     - [ ] Saved Places
     - [ ] Add Place
+    - [ ] Find Address
     - [ ] Challenge: Ride History
