@@ -1,5 +1,3 @@
-import React from "react";
+import OutHomePresenter from "./OutHomePresenter";
 
-const OutHome = () => <div>this is OutHome</div>;
-
-export default OutHome;
+export default OutHomePresenter;

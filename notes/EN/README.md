@@ -205,9 +205,33 @@ ApolloClient({
 
 ## tips
 
+### What is 'React.SFC'
+
+- `SFC` stands for Stateless Functional Component
+
+```js
+import React from "react";
+
+const ThisComponent = props => {
+  return <div>This is SFC</div>;
+};
+```
+
+or
+
+```js
+import React from "react";
+
+function ThisComponent(props) {
+  return <div>This is SFC</div>;
+}
+```
+
 ## issue
 
 ## links
+
+- [React SFC](https://medium.com/@ethan_ikt/react-stateless-functional-component-with-typescript-ce5043466011)
 
 ## added dependencies
 
@@ -354,5 +378,41 @@ ApolloClient({
 ### devDependencies
 
 - @types/react-router-dom
+
+---
+
+# 2.12 OutHome Component
+
+## section.log
+
+- very important lecture
+- how to pass router props and extends to use it
+
+## tips
+
+### RouteComponentProps type
+
+```typescript
+export interface RouteComponentProps<
+  P,
+  C extends StaticContext = StaticContext,
+  S = H.LocationState
+> {
+  history: H.History;
+  location: H.Location<S>;
+  match: match<P>;
+  staticContext?: C;
+}
+```
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
 
 ---

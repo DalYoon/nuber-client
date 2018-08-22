@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { SFC } from "react";
+import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import AddPlace from "../../Routes/AddPlace";
@@ -18,11 +18,11 @@ interface IProps {
   isLoggedIn: boolean;
 }
 
-const AppPresenter: SFC<IProps> = ({ isLoggedIn }) => {
+const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
   return <BrowserRouter>{isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}</BrowserRouter>;
 };
 
-const LoggedOutRoutes: SFC = () => {
+const LoggedOutRoutes: React.SFC = () => {
   return (
     <Switch>
       <Route path={"/"} exact={true} component={OutHome} />
@@ -34,7 +34,7 @@ const LoggedOutRoutes: SFC = () => {
   );
 };
 
-const LoggedInRoutes: SFC = () => {
+const LoggedInRoutes: React.SFC = () => {
   return (
     <Switch>
       <Route path={"/"} exact={true} component={Home} />
