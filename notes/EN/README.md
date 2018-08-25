@@ -485,3 +485,53 @@ export interface RouteComponentProps<
 ### devDependencies
 
 ---
+
+# 2.16 Inputs and Typescript part Two
+
+## section.log
+
+- make `phoneLogin` page
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
+
+# 2.17 Notifications with React Toastify
+
+## section.log
+
+- set `react-toastify`
+
+## tips
+
+### importing css for react-toastify
+
+```typescript
+import "react-toastify/dist/ReactToastify.min.css";
+```
+
+## issue
+
+## links
+
+- [react-toastify](https://github.com/fkhadra/react-toastify)
+
+## added dependencies
+
+### dependencies
+
+- react-toastify
+
+### devDependencies
+
+---
