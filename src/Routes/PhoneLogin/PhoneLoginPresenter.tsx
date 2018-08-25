@@ -53,14 +53,19 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const PhoneLoginPresenter = () => (
+interface IProps {
+  countryCode: string;
+  phoneNumber: string;
+}
+
+const PhoneLoginPresenter: React.SFC<IProps> = ({ countryCode, phoneNumber }) => (
   <Container>
     <Helmet>
       <title>Phone Login | Number</title>
     </Helmet>
     <BackArrowExtended backTo={"/"} />
     <Title>Enter your mobile number</Title>
-    <CountrySelect>
+    <CountrySelect value={countryCode}>
       {countries.map((country, index) => (
         <CountryOption key={index} value={country.dial_code}>
           {country.flag} {country.name} ({country.dial_code})
@@ -68,7 +73,7 @@ const PhoneLoginPresenter = () => (
       ))}
     </CountrySelect>
     <Form>
-      <Input placeholder={"053 690 2129"} />
+      <Input placeholder={phoneNumber} />
       <Button>
         <svg
           xmlns="http://www.w3.org/2000/svg"
