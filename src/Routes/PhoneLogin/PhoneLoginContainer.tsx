@@ -2,8 +2,8 @@ import React from "react";
 import { Mutation } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
+import { PHONE_SIGN_IN } from "./Phone.queries";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
-import { PHONE_SIGN_IN } from "./PhoneQuery";
 
 interface IState {
   countryCode: string;
