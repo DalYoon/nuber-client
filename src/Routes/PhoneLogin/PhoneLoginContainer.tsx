@@ -23,6 +23,7 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
   };
 
   public render() {
+    const { history } = this.props;
     const { countryCode, phoneNumber } = this.state;
     return (
       <PhoneSignInMutation
@@ -41,10 +42,18 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
         {(mutation, { loading }) => {
           const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
             event.preventDefault();
-            const isValid = /^\+[0-9]{1}[0-9]{7,11}$/.test(`${countryCode}${phoneNumber}`);
+            const phone = `${countryCode}${phoneNumber}`;
+            const isValid = /^\+[0-9]{1}[0-9]{7,11}$/.test(phone);
 
             if (isValid) {
-              mutation();
+              // mutation();
+              // tslint:disable-next-line
+              history.push({
+                pathname: "/verify-phone",
+                state: {
+                  phoneNumber: phone
+                }
+              });
             } else {
               toast.error("please write phone a number!");
             }
