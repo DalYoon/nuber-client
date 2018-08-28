@@ -31,9 +31,19 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
         onCompleted={data => {
           const { StartPhoneVerification } = data;
+          const phone = `${countryCode}${phoneNumber}`;
 
           if (StartPhoneVerification.ok) {
-            toast.info("ok!");
+            toast.success("We Sent SMS Message For You, Redirecting...");
+
+            setTimeout(() => {
+              history.push({
+                pathname: "/verify-phone",
+                state: {
+                  phoneNumber: phone
+                }
+              });
+            }, 2000);
           } else {
             toast.error(StartPhoneVerification.error);
           }
@@ -43,17 +53,10 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
           const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
             event.preventDefault();
             const phone = `${countryCode}${phoneNumber}`;
-            const isValid = /^\+[0-9]{1}[0-9]{7,11}$/.test(phone);
+            const isValid = /^\+[0-9]{2}[0-9]{7,11}$/.test(phone);
 
             if (isValid) {
-              // mutation();
-              // tslint:disable-next-line
-              history.push({
-                pathname: "/verify-phone",
-                state: {
-                  phoneNumber: phone
-                }
-              });
+              mutation();
             } else {
               toast.error("please write phone a number!");
             }
