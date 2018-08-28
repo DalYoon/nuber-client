@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation, MutationUpdaterFn } from "react-apollo";
+import { Mutation } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { startPhoneVerification, startPhoneVerificationVariables } from "../../types/api";
@@ -27,8 +27,16 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
     return (
       <PhoneSignInMutation
         mutation={PHONE_SIGN_IN}
-        update={this.afterSubmit}
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
+        onCompleted={data => {
+          const { StartPhoneVerification } = data;
+
+          if (StartPhoneVerification.ok) {
+            toast.info("ok!");
+          } else {
+            toast.error(StartPhoneVerification.error);
+          }
+        }}
       >
         {(mutation, { loading }) => {
           const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
@@ -63,11 +71,6 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
     this.setState({
       [name]: value
     } as any);
-  };
-
-  public afterSubmit: MutationUpdaterFn = (cache, data) => {
-    // tslint:disable-next-line
-    console.log(data);
   };
 }
 
