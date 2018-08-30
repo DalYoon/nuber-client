@@ -3,8 +3,8 @@ import { Mutation } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { startPhoneVerification, startPhoneVerificationVariables } from "../../types/api";
-import { PHONE_SIGN_IN } from "./Phone.queries";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
+import { PHONE_SIGN_IN } from "./PhoneQueries";
 
 interface IState {
   countryCode: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "../../typed-components";
 
 const Container = styled.input`
   border: none;
@@ -29,6 +29,7 @@ interface IProps {
   value: any;
   name?: string;
   onChange: any;
+  className?: string;
 }
 
 const Input: React.SFC<IProps> = ({
@@ -37,9 +38,11 @@ const Input: React.SFC<IProps> = ({
   required = true,
   value,
   name = "",
-  onChange
+  onChange,
+  className
 }) => (
   <Container
+    className={className}
     placeholder={placeholder}
     type={type}
     required={required}
