@@ -1,5 +1,5 @@
 import React from "react";
-// import { MutationFn } from "react-apollo";
+import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
 import Button from "../../Components/Button";
 import Form from "../../Components/Form";
@@ -17,28 +17,33 @@ const ExtendedInput = styled(Input)`
   margin-bottom: 20px;
 `;
 
-// interface IProps {
-//   verificationKey: string;
-//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-//   onSubmit: MutationFn;
-//   loading: boolean;
-// }
+interface IProps {
+  verificationKey: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: MutationFn;
+  loading: boolean;
+}
 
-const VerifyPhonePresenter: React.SFC = () => {
+const VerifyPhonePresenter: React.SFC<IProps> = ({
+  verificationKey,
+  onChange,
+  onSubmit,
+  loading
+}) => {
   return (
     <Container>
       <Helmet>
         <title>Verify Phone | Number</title>
       </Helmet>
       <Header backTo={"/phone-login"} title={"Verify Phone Number"} />
-      <ExtendedForm submitFn={null}>
+      <ExtendedForm submitFn={onSubmit}>
         <ExtendedInput
-          value={""}
+          value={verificationKey}
           placeholder={"Enter Verification Code"}
-          onChange={null}
+          onChange={onChange}
           name={"verificationKey"}
         />
-        <Button value={"submit"} onClick={null} />
+        <Button value={loading ? "verifying" : "submit"} onClick={null} />
       </ExtendedForm>
     </Container>
   );

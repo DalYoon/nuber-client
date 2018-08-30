@@ -1,13 +1,14 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { RouteComponentProps } from "react-router";
+import { toast } from "react-toastify";
 import { verifyPhone, verifyPhoneVariables } from "../../types/api";
 import { VERIFY_PHONE } from "./VerifyPhoneQueries";
 
 import VerifyPhonePresenter from "./VerifyPhonePresenter";
 
 interface IState {
-  key: string;
+  verificationKey: string;
   phoneNumber: string;
 }
 
@@ -24,34 +25,53 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
     }
 
     this.state = {
-      key: "",
-      phoneNumber: props.location.state.phoneNumber
+      phoneNumber: props.location.state.phoneNumber,
+      verificationKey: ""
     };
   }
 
   public render() {
-    const { key, phoneNumber } = this.state;
+    const { verificationKey, phoneNumber } = this.state;
     return (
       <VerifyMutation
         mutation={VERIFY_PHONE}
         variables={{
-          key,
+          key: verificationKey,
           phoneNumber
+        }}
+        onCompleted={data => {
+          const { CompletePhoneVerification } = data;
+
+          if (CompletePhoneVerification.ok) {
+            toast.success("verification has been done");
+          } else {
+            toast.error(CompletePhoneVerification.error);
+          }
         }}
       >
         {(mutation, { loading }) => {
           return (
             <VerifyPhonePresenter
-            // verificationKey={key}
-            // onChange={}
-            // onSubmit={}
-            // loading={loading}
+              onSubmit={mutation}
+              onChange={this.onInputChange}
+              verificationKey={verificationKey}
+              loading={loading}
             />
           );
         }}
       </VerifyMutation>
     );
   }
+
+  public onInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+    const {
+      target: { name, value }
+    } = event;
+
+    this.setState({
+      [name]: value
+    } as any);
+  };
 }
 
 export default VerifyPhoneContainer;
