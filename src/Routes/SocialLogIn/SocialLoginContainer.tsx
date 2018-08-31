@@ -1,6 +1,7 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
+import { toast } from "react-toastify";
 import { facebookConnect, facebookConnectVariables } from "../../types/api";
 import SocialLoginPresenter from "./SocialLoginPresenter";
 import { FACEBOOK_CONNECT } from "./SocialLoginQueries";
@@ -9,41 +10,38 @@ class LoginMutation extends Mutation<facebookConnect, facebookConnectVariables> 
 
 interface IProps extends RouteComponentProps<any> {}
 
-interface IState {
-  firstName: string;
-  lastName: string;
-  email?: string;
-  fbId: string;
-}
-
-class SocialLoginContainer extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      email: "",
-      fbId: "",
-      firstName: "",
-      lastName: ""
-    };
-  }
+class SocialLoginContainer extends React.Component<IProps> {
+  public facebookMutation: MutationFn;
 
   public render() {
-    const { email, fbId, firstName, lastName } = this.state;
     return (
-      <LoginMutation
-        mutation={FACEBOOK_CONNECT}
-        variables={{
-          email,
-          fbId,
-          firstName,
-          lastName
+      <LoginMutation mutation={FACEBOOK_CONNECT}>
+        {(facebookMutation, { loading }) => {
+          this.facebookMutation = facebookMutation;
+          return <SocialLoginPresenter loginCallback={this.loginCallback} />;
         }}
-      >
-        {(mutation, { loading }) => <SocialLoginPresenter loginCallback={mutation} />}
       </LoginMutation>
     );
   }
+
+  public loginCallback = fbData => {
+    console.log(fbData);
+    const { email, first_name, last_name, id, name, accessToken } = fbData;
+
+    if (accessToken) {
+      toast.success(`welcome ${name}!`);
+      this.facebookMutation({
+        variables: {
+          email,
+          fbId: id,
+          firstName: first_name,
+          lastName: last_name
+        }
+      });
+    } else {
+      toast.error("log in failed :( ");
+    }
+  };
 }
 
 export default SocialLoginContainer;

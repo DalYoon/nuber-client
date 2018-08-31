@@ -823,3 +823,46 @@ constructor(props) {
 ### devDependencies
 
 ---
+
+# 2.28 SocialLogin with Apollo part Two
+
+## section.log
+
+- very important lecture
+- how to take `mutation` out to component and give additional process
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
+
+# 2.29 SocialLogin with Apollo part Three
+
+## section.log
+
+- handle facebook login callback
+
+## tips
+
+## issue
+
+## links
+
+- [facebook graph api User fields](https://developers.facebook.com/docs/graph-api/reference/v2.6/user)
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
