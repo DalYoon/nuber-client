@@ -3,8 +3,11 @@ import { Mutation, MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { facebookConnect, facebookConnectVariables } from "../../types/api";
-import SocialLoginPresenter from "./SocialLoginPresenter";
+
+import { LOG_USER_IN } from "../../sharedQueries.local";
 import { FACEBOOK_CONNECT } from "./SocialLoginQueries";
+
+import SocialLoginPresenter from "./SocialLoginPresenter";
 
 class LoginMutation extends Mutation<facebookConnect, facebookConnectVariables> {}
 
@@ -15,12 +18,33 @@ class SocialLoginContainer extends React.Component<IProps> {
 
   public render() {
     return (
-      <LoginMutation mutation={FACEBOOK_CONNECT}>
-        {(facebookMutation, { loading }) => {
-          this.facebookMutation = facebookMutation;
-          return <SocialLoginPresenter loginCallback={this.loginCallback} />;
+      <Mutation mutation={LOG_USER_IN}>
+        {logUserIn => {
+          return (
+            <LoginMutation
+              mutation={FACEBOOK_CONNECT}
+              onCompleted={data => {
+                const { FacebookConnect } = data;
+                if (FacebookConnect.ok) {
+                  logUserIn({
+                    variables: {
+                      token: FacebookConnect.token
+                    }
+                  });
+                  toast.success("ok!");
+                } else {
+                  toast.error(FacebookConnect.error);
+                }
+              }}
+            >
+              {(facebookMutation, { loading }) => {
+                this.facebookMutation = facebookMutation;
+                return <SocialLoginPresenter loginCallback={this.loginCallback} />;
+              }}
+            </LoginMutation>
+          );
         }}
-      </LoginMutation>
+      </Mutation>
     );
   }
 

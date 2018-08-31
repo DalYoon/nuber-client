@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { startPhoneVerification, startPhoneVerificationVariables } from "../../types/api";
@@ -17,6 +17,8 @@ class PhoneSignInMutation extends Mutation<
 > {}
 
 class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, IState> {
+  public phoneMutation: MutationFn;
+
   public state = {
     countryCode: "+82",
     phoneNumber: ""
@@ -49,25 +51,15 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
           }
         }}
       >
-        {(mutation, { loading }) => {
-          const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
-            event.preventDefault();
-            const phone = `${countryCode}${phoneNumber}`;
-            const isValid = /^\+[0-9]{2}[0-9]{7,11}$/.test(phone);
-
-            if (isValid) {
-              mutation();
-            } else {
-              toast.error("please write phone a number!");
-            }
-          };
+        {(phoneMutation, { loading }) => {
+          this.phoneMutation = phoneMutation;
 
           return (
             <PhoneLoginPresenter
               countryCode={countryCode}
               phoneNumber={phoneNumber}
               onInputChange={this.onInputChange}
-              onSubmit={onSubmit}
+              onSubmit={this.onSubmit}
               loading={loading}
             />
           );
@@ -83,6 +75,19 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
     this.setState({
       [name]: value
     } as any);
+  };
+
+  public onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
+    const { countryCode, phoneNumber } = this.state;
+    event.preventDefault();
+    const phone = `${countryCode}${phoneNumber}`;
+    const isValid = /^\+[0-9]{2}[0-9]{7,11}$/.test(phone);
+
+    if (isValid) {
+      this.phoneMutation();
+    } else {
+      toast.error("please write a phone number!");
+    }
   };
 }
 

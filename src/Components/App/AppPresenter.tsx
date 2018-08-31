@@ -44,6 +44,7 @@ const LoggedInRoutes: React.SFC = () => {
       <Route path={"/places"} exact={true} component={Places} />
       <Route path={"/add-place"} exact={true} component={AddPlace} />
       <Route path={"/find-address"} exact={true} component={FindAddress} />
+      <Redirect from={"*"} to={"/"} />
     </Switch>
   );
 };
