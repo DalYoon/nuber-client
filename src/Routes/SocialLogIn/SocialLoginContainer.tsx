@@ -40,7 +40,7 @@ class SocialLoginContainer extends React.Component<IProps, IState> {
           lastName
         }}
       >
-        {(mutation, { loading }) => <SocialLoginPresenter />}
+        {(mutation, { loading }) => <SocialLoginPresenter loginCallback={mutation} />}
       </LoginMutation>
     );
   }
