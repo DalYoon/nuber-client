@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
@@ -47,10 +46,6 @@ const LoggedInRoutes: React.SFC = () => {
       <Redirect from={"*"} to={"/"} />
     </Switch>
   );
-};
-
-AppPresenter.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
 };
 
 export default AppPresenter;
