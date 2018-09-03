@@ -70,6 +70,32 @@ export interface verifyPhoneVariables {
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: myProfile
+// ====================================================
+
+export interface myProfile_GetMyProfile_user {
+  __typename: "User";
+  email: string | null;
+  fullName: string | null;
+  phoneNumber: string | null;
+  profilePhoto: string | null;
+}
+
+export interface myProfile_GetMyProfile {
+  __typename: "GetMyProfileResponse";
+  ok: boolean;
+  error: string | null;
+  user: myProfile_GetMyProfile_user | null;
+}
+
+export interface myProfile {
+  GetMyProfile: myProfile_GetMyProfile;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================

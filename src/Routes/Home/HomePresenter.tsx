@@ -3,6 +3,8 @@ import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
 import styled from "../../typed-components";
 
+import Menu from "../../Components/Menu";
+
 const Container = styled.div``;
 
 interface IProps {
@@ -17,7 +19,7 @@ const Home: React.SFC<IProps> = ({ isMenuOpen, toggleMenu }) => {
         <title>Home | Nuber</title>
       </Helmet>
       <Sidebar
-        sidebar={<b>Sidebar content</b>}
+        sidebar={<Menu />}
         open={isMenuOpen}
         onSetOpen={toggleMenu}
         styles={{
