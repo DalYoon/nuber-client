@@ -2,7 +2,9 @@
 
 ## section.log
 
--
+- very important lecture
+- make `toggleDrivingMode`
+- how to update component after run mutation
 
 ## tips
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { MutationFn } from "react-apollo";
 import { Link } from "react-router-dom";
 import styled from "../../typed-components";
 
@@ -76,11 +77,13 @@ const ToggleDriving = styled<IToggleProps, any>("button")`
 interface IProps {
   data?: myProfile;
   loading: boolean;
+  toggleDrivingFn: MutationFn;
 }
 
 const MenuPresenter: React.SFC<IProps> = ({
   data: { GetMyProfile: { user = null } = {} } = {},
-  loading
+  loading,
+  toggleDrivingFn
 }) => {
   if (user) {
     console.log(user);
@@ -105,7 +108,7 @@ const MenuPresenter: React.SFC<IProps> = ({
             </Header>
             <SLink to="/trips">Your Trips</SLink>
             <SLink to="/settings">Settings</SLink>
-            <ToggleDriving isDriving={user.isDriving}>
+            <ToggleDriving onClick={toggleDrivingFn} isDriving={user.isDriving}>
               {user.isDriving ? "Stop driving" : "Start driving"}
             </ToggleDriving>
           </React.Fragment>
