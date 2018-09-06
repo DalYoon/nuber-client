@@ -80,6 +80,7 @@ export interface myProfile_GetMyProfile_user {
   fullName: string | null;
   phoneNumber: string | null;
   profilePhoto: string | null;
+  isDriving: boolean;
 }
 
 export interface myProfile_GetMyProfile {

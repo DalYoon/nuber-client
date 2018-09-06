@@ -10,6 +10,7 @@ export const USER_PROFILE = gql`
         fullName
         phoneNumber
         profilePhoto
+        isDriving
       }
     }
   }
