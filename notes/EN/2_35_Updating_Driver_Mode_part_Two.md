@@ -1,10 +1,10 @@
-# 2.34 Updating Driver Mode part One
+# 2.35 Updating Driver Mode part Two
 
 ## section.log
 
 - very important lecture
 - make `toggleDrivingMode`
-- how to update component after run mutation (through query)
+- how to update component after run mutation (through cache without api transaction)
 
 ## tips
 
