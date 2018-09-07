@@ -27,9 +27,8 @@
 
 ### the codes to start this lecture
 
-- [PhoeoInput Component]()
-- [EditAccountContainer]()
-- [EditAccountPresenter]()
+- [PhoeoInput Component](https://github.com/DalYoon/nuber-client/blob/master/notes/CodeStorage/2_39_PhotoInput.md)
+- [EditAccountPresenter](https://github.com/DalYoon/nuber-client/blob/master/notes/CodeStorage/2_39_EditAccountPresenter.md)
 
 ## added dependencies
 
