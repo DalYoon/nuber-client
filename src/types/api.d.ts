@@ -119,8 +119,10 @@ export interface myProfile_GetMyProfile_user {
   __typename: "User";
   email: string | null;
   fullName: string | null;
-  phoneNumber: string | null;
+  firstName: string;
+  lastName: string;
   profilePhoto: string | null;
+  phoneNumber: string | null;
   isDriving: boolean;
 }
 

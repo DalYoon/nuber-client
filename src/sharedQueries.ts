@@ -8,6 +8,9 @@ export const USER_PROFILE = gql`
       user {
         email
         fullName
+        firstName
+        lastName
+        profilePhoto
         phoneNumber
         profilePhoto
         isDriving
