@@ -11,10 +11,6 @@ class ProfileQuery extends Query<myProfile> {}
 class ToggleDrivingMutation extends Mutation<toggleDriving> {}
 
 class MenuContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   public render() {
     return (
       <ToggleDrivingMutation mutation={TOGGLE_DRIVING} refetchQueries={[{ query: USER_PROFILE }]}>
