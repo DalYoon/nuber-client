@@ -85,9 +85,6 @@ const MenuPresenter: React.SFC<IProps> = ({
   loading,
   toggleDrivingFn
 }) => {
-  if (user) {
-    console.log(user);
-  }
   return (
     <Container>
       {!loading &&
