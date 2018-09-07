@@ -1,3 +1,4 @@
+```typescript
 import React from "react";
 import { Mutation, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -16,8 +17,6 @@ interface IState {
   firstName: string;
   lastName: string;
   profilePhoto: string;
-  uploading: boolean;
-  file?: Blob;
 }
 
 class UpdateProfileMutation extends Mutation<updateProfile, updateProfileVariables> {}
@@ -28,12 +27,11 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     email: "",
     firstName: "",
     lastName: "",
-    profilePhoto: "",
-    uploading: false
+    profilePhoto: ""
   };
 
   public render() {
-    const { email, firstName, lastName, profilePhoto, uploading } = this.state;
+    const { email, firstName, lastName, profilePhoto } = this.state;
     return (
       <UserProfileQuery
         query={USER_PROFILE}
@@ -61,7 +59,6 @@ class EditAccountContainer extends React.Component<IProps, IState> {
           >
             {(updateProfileFn, { loading }) => (
               <EditAccountPresenter
-                uploading={uploading}
                 email={email}
                 firstName={firstName}
                 lastName={lastName}
@@ -77,16 +74,10 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     );
   }
 
-  public onInputChange: React.ChangeEventHandler<HTMLInputElement> = async event => {
+  public onInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     const {
-      target: { name, value, files }
+      target: { name, value }
     } = event;
-
-    if (files) {
-      this.setState({
-        uploading: true
-      });
-    }
 
     this.setState({
       [name]: value
@@ -113,3 +104,4 @@ class EditAccountContainer extends React.Component<IProps, IState> {
 }
 
 export default EditAccountContainer;
+```

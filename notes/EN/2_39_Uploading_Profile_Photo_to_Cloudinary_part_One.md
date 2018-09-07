@@ -4,6 +4,9 @@
 
 - very important lecture
 - `fetchPolicy`
+- `PhotoInput` component
+- upload image
+- cloudinary (Image Cloud)
 
 ## tips
 
@@ -21,6 +24,12 @@
 ## issue
 
 ## links
+
+### the codes to start this lecture
+
+- [PhoeoInput Component]()
+- [EditAccountContainer]()
+- [EditAccountPresenter]()
 
 ## added dependencies
 

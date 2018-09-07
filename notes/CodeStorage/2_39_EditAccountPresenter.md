@@ -1,3 +1,4 @@
+```typescript
 import React from "react";
 import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
@@ -27,7 +28,6 @@ interface IProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
   onSubmit: MutationFn;
-  uploading: boolean;
 }
 
 const EditAccountPresenter: React.SFC<IProps> = ({
@@ -37,8 +37,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   profilePhoto,
   onInputChange,
   loading,
-  onSubmit,
-  uploading
+  onSubmit
 }) => (
   <Container>
     <Helmet>
@@ -46,7 +45,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header title={"Edit Account"} backTo={"/"} />
     <ExtendedForm submitFn={onSubmit}>
-      <PhotoInput uploading={uploading} fileUrl={profilePhoto} onChange={onInputChange} />
+      <PhotoInput uploading={false} uploaded={true} fileUrl={profilePhoto} />
       <ExtendedInput
         type="text"
         name="firstName"
@@ -74,3 +73,4 @@ const EditAccountPresenter: React.SFC<IProps> = ({
 );
 
 export default EditAccountPresenter;
+```
