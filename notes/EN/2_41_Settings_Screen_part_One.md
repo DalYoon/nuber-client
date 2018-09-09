@@ -2,7 +2,7 @@
 
 ## section.log
 
--
+- `settings` page
 
 ## tips
 
