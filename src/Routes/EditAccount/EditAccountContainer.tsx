@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { Mutation, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -86,6 +87,18 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       this.setState({
         uploading: true
       });
+
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("apy_key", "399141415383233");
+      formData.append("upload_preset", "qqqqhsbx");
+      formData.append("timestamp", String(Date.now() / 1000));
+
+      const request = await axios.post(
+        `https://api.cloudinary.com/v1_1/dbfkfuxui/image/upload`,
+        formData
+      );
+      console.log(request);
     }
 
     this.setState({
