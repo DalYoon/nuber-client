@@ -23,8 +23,8 @@ class AddPlaceMutation extends Mutation<addPlace, addPlaceVariables> {}
 class AddPlaceContainer extends React.Component<IProps, IState> {
   public state = {
     address: "",
-    lat: 1.34,
-    lng: 1.34,
+    lat: 0,
+    lng: 0,
     name: ""
   };
 
@@ -59,6 +59,7 @@ class AddPlaceContainer extends React.Component<IProps, IState> {
             onChange={this.onInputChange}
             loading={false}
             onSubmitFn={addPlaceFn}
+            pickedAddress={lat !== 0 && lng !== 0}
           />
         )}
       </AddPlaceMutation>
