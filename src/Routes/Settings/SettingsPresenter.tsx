@@ -82,7 +82,13 @@ const SettingsPresenter: React.SFC<IProps> = ({
       {!placesLoading &&
         places &&
         places.map(place => (
-          <Place key={place!.id} fav={place!.isFav} name={place!.name} address={place!.address} />
+          <Place
+            key={place!.id}
+            id={place!.id}
+            fav={place!.isFav}
+            name={place!.name}
+            address={place!.address}
+          />
         ))}
       <SLink to="/places">Go To Places</SLink>
       <FakeLink onClick={logUserOutFn as any}>Log Out</FakeLink>

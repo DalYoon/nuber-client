@@ -31,12 +31,18 @@ const PlacesPresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header title="Places" backTo="/" />
     <Container>
-      {!loading && places && places.length === 0 && <SLink to="/add-place">Add Place</SLink>}
       {!loading &&
         places &&
         places.map(place => (
-          <Place key={place!.id} fav={place!.isFav} name={place!.name} address={place!.address} />
+          <Place
+            key={place!.id}
+            id={place!.id}
+            fav={place!.isFav}
+            name={place!.name}
+            address={place!.address}
+          />
         ))}
+      {!loading && places && <SLink to="/add-place">Add Place</SLink>}
     </Container>
   </React.Fragment>
 );
