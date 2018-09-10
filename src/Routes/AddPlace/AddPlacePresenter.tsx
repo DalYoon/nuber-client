@@ -1,4 +1,5 @@
 import React from "react";
+import { MutationFn } from "react-apollo";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 import Button from "../../Components/Button";
@@ -26,16 +27,17 @@ interface IProps {
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
+  onSubmitFn: MutationFn;
 }
 
-const AddPlacePresenter: React.SFC<IProps> = ({ address, name, onChange }) => (
+const AddPlacePresenter: React.SFC<IProps> = ({ address, name, onChange, onSubmitFn }) => (
   <React.Fragment>
     <Helmet>
       <title>Add Place | Nuber</title>
     </Helmet>
     <Header title="Add Place" backTo="/" />
     <Container>
-      <Form submitFn={null}>
+      <Form submitFn={onSubmitFn}>
         <ExtendedInput
           type="text"
           name="name"
