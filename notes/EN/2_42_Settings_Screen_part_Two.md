@@ -2,7 +2,7 @@
 
 ## section.log
 
--
+- make `place` component
 
 ## tips
 
