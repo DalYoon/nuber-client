@@ -1,5 +1,3 @@
-import React from "react";
+import PlacesContainer from "./PlacesContainer";
 
-const Places = () => <div>this is Places</div>;
-
-export default Places;
+export default PlacesContainer;
