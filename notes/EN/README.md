@@ -1260,3 +1260,45 @@ constructor(props) {
 ### devDependencies
 
 ---
+
+# 2.48 Google Map Events
+
+## section.log
+
+- very important lecture
+- how to get center after drag event
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
+
+# 2.49 Reverse Geocoding part One
+
+## section.log
+
+- very important lecture
+- how to get address with `lat`, `lng`
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
