@@ -22,9 +22,11 @@ This note is created by taking the lecture below<br>
 
     - [ ] Home
     - [ ] Ride
+    - [ ] Chat
     - [x] Edit Account
     - [X] Settings
-    - [ ] Places
-    - [ ] Add Place
-    - [ ] Find Address
+    - [x] Places
+    - [x] Add Place
+    - [x] Find Address
     - [ ] Challenge: Ride History
+    - [ ] Challenge: Email Signin

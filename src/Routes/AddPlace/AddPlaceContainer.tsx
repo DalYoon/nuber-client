@@ -21,14 +21,21 @@ interface IState {
 class AddPlaceMutation extends Mutation<addPlace, addPlaceVariables> {}
 
 class AddPlaceContainer extends React.Component<IProps, IState> {
-  public state = {
-    address: "",
-    lat: 0,
-    lng: 0,
-    name: ""
-  };
+  constructor(props) {
+    super(props);
+
+    const { location: { state = {} } = {} } = this.props;
+
+    this.state = {
+      address: state.address || "",
+      lat: state.lat || 0,
+      lng: state.lng || 0,
+      name: ""
+    };
+  }
 
   public render() {
+    console.log(this.props);
     const { address, name, lat, lng } = this.state;
     const { history } = this.props;
     return (
