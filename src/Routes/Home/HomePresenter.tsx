@@ -86,7 +86,7 @@ const Home: React.SFC<IProps> = ({
           placeholder={"type address"}
           onBlur={onAddressSubmit}
         />
-        <ExtendedButton onClick={null} disabled={false} value={"Pick Address"} />
+        <ExtendedButton onClick={null} disabled={toAddress === ""} value={"Pick Address"} />
         <Map innerRef={mapRef} />
       </Sidebar>
     </Container>

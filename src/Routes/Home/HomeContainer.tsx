@@ -108,7 +108,6 @@ class HomeContainer extends React.Component<IProps, IState> {
         lng
       },
       disableDefaultUI: true,
-      minZoom: 8,
       zoom: 15
     };
     this.map = new maps.Map(mapNode, mapConfig);
@@ -194,6 +193,11 @@ class HomeContainer extends React.Component<IProps, IState> {
 
       this.toMarker = new maps.Marker(toMarkerOptions);
       this.toMarker.setMap(this.map);
+
+      const bounds = new maps.LatLngBounds();
+      bounds.extend({ lat, lng });
+      bounds.extend({ lat: this.state.lat, lng: this.state.lng });
+      this.map.fitBounds(bounds);
     }
   };
 
