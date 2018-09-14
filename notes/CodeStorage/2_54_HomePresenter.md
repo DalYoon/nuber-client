@@ -1,3 +1,4 @@
+```typescript
 import React from "react";
 import Helmet from "react-helmet";
 import Sidebar from "react-sidebar";
@@ -62,3 +63,4 @@ const Home: React.SFC<IProps> = ({ isMenuOpen, toggleMenu, loading, mapRef }) =>
 };
 
 export default Home;
+```

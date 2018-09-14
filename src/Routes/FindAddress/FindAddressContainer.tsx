@@ -32,7 +32,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
+    navigator.geolocation.watchPosition(this.handleGeoSuccess, this.handleGeoError);
   }
 
   public render() {
@@ -50,7 +50,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
 
   // ------------------------------------------------------------
 
-  public handleGeoSuccess = (position: Position) => {
+  public handleGeoSuccess: PositionCallback = (position: Position) => {
     const {
       coords: { latitude, longitude }
     } = position;
@@ -64,8 +64,8 @@ class FindAddressContainer extends React.Component<IProps, IState> {
 
   // ------------------------------------------------------------
 
-  public handleGeoError = () => {
-    return;
+  public handleGeoError: PositionErrorCallback = () => {
+    return console.log("No location");
   };
 
   // ------------------------------------------------------------

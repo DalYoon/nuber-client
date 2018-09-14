@@ -1385,3 +1385,45 @@ constructor(props) {
 ### devDependencies
 
 ---
+
+# 2.53 Refactoring AddPlace
+
+## section.log
+
+- very important lecture
+- callback the address and coords for `addPlace`
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---
+
+# 2.54 HomeScreen User Marker
+
+## section.log
+
+- very important lecture
+- draw map marker
+
+## tips
+
+## issue
+
+## links
+
+## added dependencies
+
+### dependencies
+
+### devDependencies
+
+---

@@ -1,3 +1,4 @@
+```typescript
 import React from "react";
 import { Query } from "react-apollo";
 import ReactDOM from "react-dom";
@@ -23,7 +24,6 @@ class ProfileQuery extends Query<myProfile> {}
 class HomeContainer extends React.Component<IProps, IState> {
   public mapRef: any;
   public map: google.maps.Map;
-  public userMarker: google.maps.Marker;
 
   constructor(props) {
     super(props);
@@ -38,7 +38,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    navigator.geolocation.watchPosition(this.handleGeoSuccess, this.handleGeoError);
+    navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
   }
 
   public render() {
@@ -101,45 +101,10 @@ class HomeContainer extends React.Component<IProps, IState> {
       zoom: 15
     };
     this.map = new maps.Map(mapNode, mapConfig);
-    const userMarkerOptions: google.maps.MarkerOptions = {
-      icon: {
-        path: maps.SymbolPath.CIRCLE,
-        scale: 7
-      },
-      position: {
-        lat,
-        lng
-      }
-    };
-    this.userMarker = new maps.Marker(userMarkerOptions);
-    this.userMarker.setMap(this.map);
-
-    const watchOptions: PositionOptions = {
-      enableHighAccuracy: true
-    };
-
-    navigator.geolocation.watchPosition(
-      this.handleGeoWatchSuccess,
-      this.handleGeoWatchError,
-      watchOptions
-    );
   };
 
   // ------------------------------------------------------------
-
-  public handleGeoWatchSuccess: PositionCallback = (position: Position) => {
-    const {
-      coords: { latitude, longitude }
-    } = position;
-
-    console.log(latitude, longitude);
-  };
-
-  // ------------------------------------------------------------
-
-  public handleGeoWatchError: PositionErrorCallback = () => {
-    return console.log("No location");
-  };
 }
 
 export default HomeContainer;
+```
