@@ -59,6 +59,7 @@ class FindAddressPresenter extends React.Component<IProps> {
           value={address}
           onChange={onInputChange}
           onBlur={onInputBlur}
+          placeholder={"type address"}
         />
         <ExtendedButton value={"PICK THIS PLACE"} onClick={onPickPlace} />
         <Center>📍</Center>

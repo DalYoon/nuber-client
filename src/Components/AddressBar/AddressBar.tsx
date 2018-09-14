@@ -24,10 +24,17 @@ interface IProps {
   onBlur: () => void;
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }
 
-const AddressBar: React.SFC<IProps> = ({ value, onBlur, name, onChange }) => (
-  <Container value={value} onBlur={onBlur} name={name} onChange={onChange} />
+const AddressBar: React.SFC<IProps> = ({ value, onBlur, name, onChange, placeholder }) => (
+  <Container
+    placeholder={placeholder}
+    value={value}
+    onBlur={onBlur}
+    name={name}
+    onChange={onChange}
+  />
 );
 
 export default AddressBar;
