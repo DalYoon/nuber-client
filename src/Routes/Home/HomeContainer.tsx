@@ -38,10 +38,11 @@ class HomeContainer extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    navigator.geolocation.watchPosition(this.handleGeoSuccess, this.handleGeoError);
+    navigator.geolocation.getCurrentPosition(this.handleGeoSuccess, this.handleGeoError);
   }
 
   public render() {
+    console.log(this.state.lat, this.state.lng);
     const { isMenuOpen } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
@@ -129,10 +130,11 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   public handleGeoWatchSuccess: PositionCallback = (position: Position) => {
     const {
-      coords: { latitude, longitude }
+      coords: { latitude: lat, longitude: lng }
     } = position;
 
-    console.log(latitude, longitude);
+    this.userMarker.setPosition({ lat, lng });
+    this.map.panTo({ lat, lng });
   };
 
   // ------------------------------------------------------------
