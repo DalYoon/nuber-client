@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router";
+import { toast } from "react-toastify";
 import { geoCode } from "../../mapHelpers";
 
 import { USER_PROFILE } from "../../sharedQueries";
@@ -16,6 +17,9 @@ interface IState {
   toAddress: string;
   toLat: number;
   toLng: number;
+  duration?: string;
+  distance?: string;
+  price?: number;
 }
 
 interface IProps extends RouteComponentProps<any> {
@@ -29,6 +33,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   public map: google.maps.Map;
   public userMarker: google.maps.Marker;
   public toMarker: google.maps.Marker;
+  public directions: google.maps.DirectionsRenderer;
 
   constructor(props) {
     super(props);
@@ -174,12 +179,6 @@ class HomeContainer extends React.Component<IProps, IState> {
     if (result !== false) {
       const { lat, lng, formatted_address: formattedAddress } = result;
 
-      this.setState({
-        toAddress: formattedAddress,
-        toLat: lat,
-        toLng: lng
-      });
-
       if (this.toMarker) {
         this.toMarker.setMap(null);
       }
@@ -198,10 +197,60 @@ class HomeContainer extends React.Component<IProps, IState> {
       bounds.extend({ lat, lng });
       bounds.extend({ lat: this.state.lat, lng: this.state.lng });
       this.map.fitBounds(bounds);
+
+      this.setState(
+        {
+          toAddress: formattedAddress,
+          toLat: lat,
+          toLng: lng
+        },
+        this.createPath
+      );
     }
   };
 
   // ------------------------------------------------------------
+
+  public createPath = () => {
+    const { lat, lng, toLat, toLng } = this.state;
+
+    if (this.directions) {
+      this.directions.setMap(null);
+    }
+
+    const renderOptions: google.maps.DirectionsRendererOptions = {
+      polylineOptions: {
+        strokeColor: "#000"
+      },
+      suppressMarkers: true
+    };
+
+    this.directions = new google.maps.DirectionsRenderer(renderOptions);
+    const directionService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    const to = new google.maps.LatLng(toLat, toLng);
+    const from = new google.maps.LatLng(lat, lng);
+    const directionsOptions: google.maps.DirectionsRequest = {
+      destination: to,
+      origin: from,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    directionService.route(directionsOptions, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        const { routes } = result;
+        const {
+          distance: { text: distance },
+          duration: { text: duration }
+        } = routes[0].legs[0];
+        console.log(distance, duration);
+
+        this.directions.setDirections(result);
+        this.directions.setMap(this.map);
+      } else {
+        toast.error("There is no route to get the place, you have to swim");
+      }
+    });
+  };
 }
 
 export default HomeContainer;
