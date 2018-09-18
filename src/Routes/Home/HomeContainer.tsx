@@ -1,14 +1,15 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { graphql, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { geoCode } from "../../mapHelpers";
 
 import { USER_PROFILE } from "../../sharedQueries";
-import { myProfile } from "../../types/api";
+import { myProfile, reportMovement, reportMovementVariables } from "../../types/api";
 
 import HomePresenter from "./HomePresenter";
+import { REPORT_LOCATION } from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -24,6 +25,7 @@ interface IState {
 
 interface IProps extends RouteComponentProps<any> {
   google: any;
+  reportLocation: MutationFn;
 }
 
 class ProfileQuery extends Query<myProfile> {}
@@ -47,7 +49,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       lng: 0,
       toAddress: "",
       toLat: 0,
-      toLng: 0,
+      toLng: 0
     };
   }
 
@@ -145,12 +147,20 @@ class HomeContainer extends React.Component<IProps, IState> {
   // ------------------------------------------------------------
 
   public handleGeoWatchSuccess: PositionCallback = (position: Position) => {
+    const { reportLocation } = this.props;
     const {
       coords: { latitude: lat, longitude: lng }
     } = position;
 
     this.userMarker.setPosition({ lat, lng });
     this.map.panTo({ lat, lng });
+
+    reportLocation({
+      variables: {
+        lastLat: lat,
+        lastLng: lng
+      }
+    });
   };
 
   // ------------------------------------------------------------
@@ -253,11 +263,13 @@ class HomeContainer extends React.Component<IProps, IState> {
       this.directions.setDirections(result);
       this.directions.setMap(this.map);
 
-      this.setState({
-        distance,
-        duration
-      }, this.setPrice)
-
+      this.setState(
+        {
+          distance,
+          duration
+        },
+        this.setPrice
+      );
     } else {
       toast.error("There is no route to get the place, you have to swim");
     }
@@ -267,11 +279,13 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   public setPrice = () => {
     const { distance } = this.state;
-    
+
     this.setState({
       price: parseFloat(distance.replace(".", ",")) * 3
-    })
-  }
+    });
+  };
 }
 
-export default HomeContainer;
+export default graphql<any, reportMovement, reportMovementVariables>(REPORT_LOCATION, {
+  name: "reportLocation"
+})(HomeContainer);
