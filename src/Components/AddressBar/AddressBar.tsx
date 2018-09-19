@@ -7,7 +7,7 @@ const Container = styled.input`
   border-radius: 5px;
   -webkit-appearance: none;
   z-index: 2;
-  width: 80%;
+  width: 75%;
   border: 0;
   font-size: 16px;
   padding: 15px 10px;

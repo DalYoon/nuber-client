@@ -49,7 +49,6 @@ class SocialLoginContainer extends React.Component<IProps> {
   }
 
   public loginCallback = fbData => {
-    console.log(fbData);
     const { email, first_name, last_name, id, name, accessToken } = fbData;
 
     if (accessToken) {

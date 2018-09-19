@@ -6,6 +6,7 @@ import styled from "../../typed-components";
 import AddressBar from "../../Components/AddressBar";
 import Button from "../../Components/Button";
 import Menu from "../../Components/Menu";
+import { myProfile } from "../../types/api";
 
 const Container = styled.div``;
 
@@ -55,6 +56,7 @@ interface IProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAddressSubmit: any;
   price?: number;
+  data?: myProfile;
 }
 
 const Home: React.SFC<IProps> = ({
@@ -65,7 +67,8 @@ const Home: React.SFC<IProps> = ({
   toAddress,
   onInputChange,
   onAddressSubmit,
-  price
+  price,
+  data: { GetMyProfile: { user = null } = {} } = {}
 }) => {
   return (
     <Container>
@@ -85,25 +88,30 @@ const Home: React.SFC<IProps> = ({
         }}
       >
         {!loading && <MenuButton onClick={() => toggleMenu()}>|||</MenuButton>}
-        <AddressBar
-          name={"toAddress"}
-          value={toAddress}
-          onChange={onInputChange}
-          placeholder={"type address"}
-          onBlur={() => null}
-        />
-        {price && (
-          <RequestButton
-            onClick={onAddressSubmit}
-            disabled={toAddress === ""}
-            value={`Request A Ride ($${price})`}
-          />
-        )}
-        <ExtendedButton
-          onClick={onAddressSubmit}
-          disabled={toAddress === ""}
-          value={price ? "Change Address" : "Pick Address"}
-        />
+        {user &&
+          !user.isDriving && (
+            <React.Fragment>
+              <AddressBar
+                name={"toAddress"}
+                value={toAddress}
+                onChange={onInputChange}
+                placeholder={"type address"}
+                onBlur={() => null}
+              />
+              {price && (
+                <RequestButton
+                  onClick={onAddressSubmit}
+                  disabled={toAddress === ""}
+                  value={`Request A Ride ($${price})`}
+                />
+              )}
+              <ExtendedButton
+                onClick={onAddressSubmit}
+                disabled={toAddress === ""}
+                value={price ? "Change Address" : "Pick Address"}
+              />
+            </React.Fragment>
+          )}
         <Map innerRef={mapRef} />
       </Sidebar>
     </Container>
