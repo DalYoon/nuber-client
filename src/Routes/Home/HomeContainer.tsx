@@ -62,23 +62,38 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { isMenuOpen, toAddress, price } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
-        {({ data, loading }) => (
-          <NearbyQueries query={GET_NEARBY_DRIVERS}>
-            {() => (
-              <HomePresenter
-                loading={loading}
-                isMenuOpen={isMenuOpen}
-                toggleMenu={this.toggleMenu}
-                mapRef={this.mapRef}
-                toAddress={toAddress}
-                onInputChange={this.onInputChange}
-                onAddressSubmit={this.onAddressSubmit}
-                price={price}
-                data={data}
-              />
-            )}
-          </NearbyQueries>
-        )}
+        {({ data, loading }) => {
+          if (data && data.GetMyProfile) {
+            const { GetMyProfile: { user = null } = {} } = data;
+            if (user) {
+              return (
+                <NearbyQueries
+                  query={GET_NEARBY_DRIVERS}
+                  skip={user.isDriving}
+                  onCompleted={this.handleNearbyDrivers}
+                >
+                  {() => (
+                    <HomePresenter
+                      loading={loading}
+                      isMenuOpen={isMenuOpen}
+                      toggleMenu={this.toggleMenu}
+                      mapRef={this.mapRef}
+                      toAddress={toAddress}
+                      onInputChange={this.onInputChange}
+                      onAddressSubmit={this.onAddressSubmit}
+                      price={price}
+                      data={data}
+                    />
+                  )}
+                </NearbyQueries>
+              );
+            } else {
+              return null;
+            }
+          } else {
+            return "Loading...";
+          }
+        }}
       </ProfileQuery>
     );
   }
@@ -125,6 +140,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       disableDefaultUI: true,
       zoom: 15
     };
+
     this.map = new maps.Map(mapNode, mapConfig);
     const userMarkerOptions: google.maps.MarkerOptions = {
       icon: {
@@ -136,7 +152,9 @@ class HomeContainer extends React.Component<IProps, IState> {
         lng
       }
     };
+
     this.userMarker = new maps.Marker(userMarkerOptions);
+
     this.userMarker.setMap(this.map);
 
     const watchOptions: PositionOptions = {
@@ -289,6 +307,20 @@ class HomeContainer extends React.Component<IProps, IState> {
     this.setState({
       price: parseFloat(distance.replace(".", ",")) * 3
     });
+  };
+
+  // ------------------------------------------------------------
+
+  public handleNearbyDrivers = (data: {} | getDrivers) => {
+    if ("GetNearbyDrivers" in data) {
+      const {
+        GetNearbyDrivers: { ok, drivers }
+      } = data;
+
+      if (ok) {
+        console.log(drivers);
+      }
+    }
   };
 }
 
