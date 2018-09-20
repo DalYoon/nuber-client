@@ -1,3 +1,76 @@
+# 2.66 Ejecting from Apollo Boost
+
+## section.log
+
+- very important lecture
+- eject apollo-boost project
+
+## tips
+
+### previous apollo config
+
+```typescript
+import ApolloClient, { Operation } from "apollo-boost";
+
+const client = new ApolloClient({
+  clientState: {
+    defaults: {
+      auth: {
+        __typename: "Auth",
+        isLoggedIn: Boolean(localStorage.getItem("jwt"))
+      }
+    },
+    resolvers: {
+      Mutation: {
+        // log in resolver
+        logUserIn: (_, { token }, { cache }) => {
+          localStorage.setItem("jwt", token);
+          cache.writeData({
+            data: {
+              auth: {
+                __typename: "Auth",
+                isLoggedIn: true
+              }
+            }
+          });
+          return null;
+        },
+
+        // log out resolver
+        logUserOut: (_, __, { cache }) => {
+          localStorage.removeItem("jwt");
+          cache.writeData({
+            data: {
+              auth: {
+                __typename: "Auth",
+                isLoggedIn: false
+              }
+            }
+          });
+          return null;
+        }
+      }
+    }
+  },
+
+  // catch request and put jwt header in it
+  request: async (operation: Operation) => {
+    operation.setContext({
+      headers: {
+        "X-JWT": localStorage.getItem("jwt") || ""
+      }
+    });
+  },
+  // backend api for graphql
+  uri: `http://localhost:4000/graphql`
+});
+
+export default client;
+```
+
+### ejected apollo config
+
+```typescript
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
 import { ApolloLink, concat, Operation, split } from "apollo-link";
@@ -40,7 +113,7 @@ const wsLink = new WebSocketLink({
     },
     reconnect: true
   },
-  uri: "ws://localhost:4000/subscription"
+  uri: "ws://localhost:4000/subscriptions"
 });
 
 const combinedLinks = split(
@@ -114,63 +187,23 @@ const client = new ApolloClient({
 });
 
 export default client;
+```
 
-// apollo-boost version code
+## issue
 
-// import { ApolloClient } from 'apollo-boost';
+## links
 
-// const client = new ApolloClient({
-//   clientState: {
-//     defaults: {
-//       auth: {
-//         __typename: "Auth",
-//         isLoggedIn: Boolean(localStorage.getItem("jwt"))
-//       }
-//     },
-//     resolvers: {
-//       Mutation: {
-//         // log in resolver
-//         logUserIn: (_, { token }, { cache }) => {
-//           localStorage.setItem("jwt", token);
-//           cache.writeData({
-//             data: {
-//               auth: {
-//                 __typename: "Auth",
-//                 isLoggedIn: true
-//               }
-//             }
-//           });
-//           return null;
-//         },
+## added dependencies
 
-//         // log out resolver
-//         logUserOut: (_, __, { cache }) => {
-//           localStorage.removeItem("jwt");
-//           cache.writeData({
-//             data: {
-//               auth: {
-//                 __typename: "Auth",
-//                 isLoggedIn: false
-//               }
-//             }
-//           });
-//           return null;
-//         }
-//       }
-//     }
-//   },
+### dependencies
 
-//   // catch request and put jwt header in it
-//   request: async (operation: Operation) => {
-//     operation.setContext({
-//       headers: {
-//         "X-JWT": localStorage.getItem("jwt") || ""
-//       }
-//     });
-//   },
+- apollo-cache-inmemory
+- apollo-client apollo-link
+- apollo-link-error
+- apollo-link-http
+- apollo-link-state
+- apollo-link-ws
+- apollo-utilities
+- subscriptions-transport-ws
 
-//   // backend api for graphql
-//   uri: `http://localhost:4000/graphql`
-// });
-
-// export default client;
+### devDependencies
