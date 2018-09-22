@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "apollo": "^1.7.1",
-    "apollo-boost": "^0.1.13",
+    "apollo-boost": "^0.1.16",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
     "apollo-link": "^1.2.3",
