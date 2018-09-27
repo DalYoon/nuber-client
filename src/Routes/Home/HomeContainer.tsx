@@ -140,7 +140,9 @@ class HomeContainer extends React.Component<IProps, IState> {
                           document: SUBSCRIBE_NEARBY_RIDE,
                           updateQuery: this.handleSubscriptionUpdate
                         };
-                        subscribeToMore(rideSubscriptionOprions);
+                        if (isDriving) {
+                          subscribeToMore(rideSubscriptionOprions);
+                        }
                         return (
                           <AcceptRide mutation={ACCEPT_RIDE}>
                             {acceptRideFn => (
@@ -474,8 +476,22 @@ class HomeContainer extends React.Component<IProps, IState> {
 
   // ------------------------------------------------------------
 
-  public handleSubscriptionUpdate = data => {
-    console.log(data);
+  public handleSubscriptionUpdate = (prev, { subscriptionData }) => {
+    if (!subscriptionData.data) {
+      return prev;
+    }
+
+    const newObject = Object.assign({}, prev, {
+      GetNearbyRide: {
+        ...prev.GetNearbyRide,
+        ride: subscriptionData.data.NearbyRideSubscription
+      }
+    });
+
+    console.log("prev", prev);
+    console.log("newObject", newObject);
+
+    return newObject;
   };
 
   // ------------------------------------------------------------
