@@ -7,7 +7,7 @@ import styled from "../../typed-components";
 import AddressBar from "../../Components/AddressBar";
 import Button from "../../Components/Button";
 import Menu from "../../Components/Menu";
-import { myProfile } from "../../types/api";
+import { getRides, myProfile } from "../../types/api";
 
 const Container = styled.div``;
 
@@ -59,6 +59,7 @@ interface IProps {
   price?: number;
   data?: myProfile;
   requestRideFn: MutationFn;
+  nearbyRide?: getRides;
 }
 
 const Home: React.SFC<IProps> = ({
@@ -71,8 +72,10 @@ const Home: React.SFC<IProps> = ({
   onAddressSubmit,
   price,
   data: { GetMyProfile: { user = null } = {} } = {},
-  requestRideFn
+  requestRideFn,
+  nearbyRide
 }) => {
+  console.log(nearbyRide);
   return (
     <Container>
       <Helmet>
