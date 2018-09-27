@@ -7,6 +7,8 @@ import { geoCode, reverseGeoCode } from "../../mapHelpers";
 
 import { USER_PROFILE } from "../../sharedQueries";
 import {
+  acceptRide,
+  acceptRideVariables,
   getDrivers,
   getRides,
   myProfile,
@@ -17,7 +19,13 @@ import {
 } from "../../types/api";
 
 import HomePresenter from "./HomePresenter";
-import { GET_NEARBY_DRIVERS, GET_NEARBY_RIDE, REPORT_LOCATION, REQUEST_RIDE } from "./HomeQueries";
+import {
+  ACCEPT_RIDE,
+  GET_NEARBY_DRIVERS,
+  GET_NEARBY_RIDE,
+  REPORT_LOCATION,
+  REQUEST_RIDE
+} from "./HomeQueries";
 
 interface IState {
   isMenuOpen: boolean;
@@ -45,6 +53,7 @@ class ProfileQuery extends Query<myProfile> {}
 class NearbyQueries extends Query<getDrivers> {}
 class RequestRideMutation extends Mutation<requestRide, requestRideVariables> {}
 class GetNearByRides extends Query<getRides> {}
+class AcceptRide extends Mutation<acceptRide, acceptRideVariables> {}
 
 // ------------------------------------------------------------
 
@@ -123,21 +132,31 @@ class HomeContainer extends React.Component<IProps, IState> {
                   }}
                 >
                   {requestRideFn => (
-                    <GetNearByRides query={GET_NEARBY_RIDE} skip={isDriving}>
+                    <GetNearByRides query={GET_NEARBY_RIDE} skip={!isDriving}>
                       {({ data: nearbyRide }) => (
-                        <HomePresenter
-                          loading={loading}
-                          isMenuOpen={isMenuOpen}
-                          toggleMenu={this.toggleMenu}
-                          mapRef={this.mapRef}
-                          toAddress={toAddress}
-                          onInputChange={this.onInputChange}
-                          onAddressSubmit={this.onAddressSubmit}
-                          price={price}
-                          data={data}
-                          requestRideFn={requestRideFn}
-                          nearbyRide={nearbyRide}
-                        />
+                        <AcceptRide
+                          mutation={ACCEPT_RIDE}
+                          // variables={{
+                          //   rideId:
+                          // }}
+                        >
+                          {acceptRideFn => (
+                            <HomePresenter
+                              loading={loading}
+                              isMenuOpen={isMenuOpen}
+                              toggleMenu={this.toggleMenu}
+                              mapRef={this.mapRef}
+                              toAddress={toAddress}
+                              onInputChange={this.onInputChange}
+                              onAddressSubmit={this.onAddressSubmit}
+                              price={price}
+                              data={data}
+                              requestRideFn={requestRideFn}
+                              nearbyRide={nearbyRide}
+                              acceptRideFn={acceptRideFn}
+                            />
+                          )}
+                        </AcceptRide>
                       )}
                     </GetNearByRides>
                   )}
@@ -169,6 +188,7 @@ class HomeContainer extends React.Component<IProps, IState> {
       lat: latitude,
       lng: longitude
     });
+    this.getFromAddress(latitude, longitude);
     this.loadMap(latitude, longitude);
   };
 
@@ -377,8 +397,6 @@ class HomeContainer extends React.Component<IProps, IState> {
 
       if (ok && drivers) {
         for (const driver of drivers) {
-          console.log(driver);
-
           if (driver && driver.lastLat && driver.lastLng) {
             const existingDriver: google.maps.Marker | undefined = this.drivers.find(
               (driverMarker: google.maps.Marker) => {

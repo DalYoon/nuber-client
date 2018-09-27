@@ -7,6 +7,7 @@ import styled from "../../typed-components";
 import AddressBar from "../../Components/AddressBar";
 import Button from "../../Components/Button";
 import Menu from "../../Components/Menu";
+import RidePopUp from "../../Components/RidePopUp";
 import { getRides, myProfile } from "../../types/api";
 
 const Container = styled.div``;
@@ -60,6 +61,7 @@ interface IProps {
   data?: myProfile;
   requestRideFn: MutationFn;
   nearbyRide?: getRides;
+  acceptRideFn: MutationFn;
 }
 
 const Home: React.SFC<IProps> = ({
@@ -73,9 +75,9 @@ const Home: React.SFC<IProps> = ({
   price,
   data: { GetMyProfile: { user = null } = {} } = {},
   requestRideFn,
-  nearbyRide
+  nearbyRide: { GetNearbyRide: { ride = null } = {} } = {},
+  acceptRideFn
 }) => {
-  console.log(nearbyRide);
   return (
     <Container>
       <Helmet>
@@ -118,6 +120,18 @@ const Home: React.SFC<IProps> = ({
               />
             </React.Fragment>
           )}
+        {ride && (
+          <RidePopUp
+            id={ride.id}
+            pickUpAddress={ride.pickUpAddress}
+            dropOffAddress={ride.dropOffAddress}
+            price={ride.price}
+            distance={ride.distance}
+            passengerName={ride.passenger.fullName!}
+            passengerPhoto={ride.passenger.profilePhoto!}
+            acceptRideFn={acceptRideFn}
+          />
+        )}
         <Map innerRef={mapRef} />
       </Sidebar>
     </Container>
