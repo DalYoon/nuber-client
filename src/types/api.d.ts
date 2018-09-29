@@ -278,14 +278,14 @@ export interface startPhoneVerificationVariables {
 // GraphQL query operation: getRide
 // ====================================================
 
-export interface getRide_GetRide_ride_passenger {
+export interface getRide_GetRide_ride_driver {
   __typename: "User";
   id: number;
   fullName: string | null;
   profilePhoto: string | null;
 }
 
-export interface getRide_GetRide_ride_driver {
+export interface getRide_GetRide_ride_passenger {
   __typename: "User";
   id: number;
   fullName: string | null;
@@ -301,8 +301,8 @@ export interface getRide_GetRide_ride {
   price: number;
   distance: string;
   duration: string;
-  passenger: getRide_GetRide_ride_passenger;
   driver: getRide_GetRide_ride_driver;
+  passenger: getRide_GetRide_ride_passenger;
   chatId: number | null;
 }
 
@@ -328,14 +328,14 @@ export interface getRideVariables {
 // GraphQL subscription operation: rideUpdates
 // ====================================================
 
-export interface rideUpdates_RideStatusSubscription_passenger {
+export interface rideUpdates_RideStatusSubscription_driver {
   __typename: "User";
   id: number;
   fullName: string | null;
   profilePhoto: string | null;
 }
 
-export interface rideUpdates_RideStatusSubscription_driver {
+export interface rideUpdates_RideStatusSubscription_passenger {
   __typename: "User";
   id: number;
   fullName: string | null;
@@ -351,8 +351,8 @@ export interface rideUpdates_RideStatusSubscription {
   price: number;
   distance: string;
   duration: string;
-  passenger: rideUpdates_RideStatusSubscription_passenger;
   driver: rideUpdates_RideStatusSubscription_driver;
+  passenger: rideUpdates_RideStatusSubscription_passenger;
   chatId: number | null;
 }
 

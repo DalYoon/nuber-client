@@ -136,12 +136,12 @@ class HomeContainer extends React.Component<IProps, IState> {
                   {requestRideFn => (
                     <GetNearByRides query={GET_NEARBY_RIDE} skip={!isDriving}>
                       {({ subscribeToMore, data: nearbyRide }) => {
-                        const rideSubscriptionOprions: SubscribeToMoreOptions = {
+                        const rideSubscriptionOptions: SubscribeToMoreOptions = {
                           document: SUBSCRIBE_NEARBY_RIDE,
                           updateQuery: this.handleSubscriptionUpdate
                         };
                         if (isDriving) {
-                          subscribeToMore(rideSubscriptionOprions);
+                          subscribeToMore(rideSubscriptionOptions);
                         }
                         return (
                           <AcceptRide
@@ -492,9 +492,6 @@ class HomeContainer extends React.Component<IProps, IState> {
         ride: subscriptionData.data.NearbyRideSubscription
       }
     });
-
-    console.log("prev", prev);
-    console.log("newObject", newObject);
 
     return newObject;
   };

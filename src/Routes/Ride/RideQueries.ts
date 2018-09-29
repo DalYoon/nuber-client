@@ -13,12 +13,12 @@ export const GET_RIDE = gql`
         price
         distance
         duration
-        passenger {
+        driver {
           id
           fullName
           profilePhoto
         }
-        driver {
+        passenger {
           id
           fullName
           profilePhoto
@@ -39,12 +39,12 @@ export const RIDE_SUBSCRIPTION = gql`
       price
       distance
       duration
-      passenger {
+      driver {
         id
         fullName
         profilePhoto
       }
-      driver {
+      passenger {
         id
         fullName
         profilePhoto

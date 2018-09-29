@@ -41,15 +41,22 @@ class RideContainer extends React.Component<IProps> {
         {({ data: userData }) => (
           <RideQuery query={GET_RIDE} variables={{ rideId }}>
             {({ data: rideData, loading, subscribeToMore }) => {
-              const subscriptionOptions: SubscribeToMoreOptions = {
+              const subscribeOptions: SubscribeToMoreOptions = {
                 document: RIDE_SUBSCRIPTION,
-                updateQuery: this.handleRideUpdate
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) {
+                    console.log(`prev: ${prev}`);
+                    return prev;
+                  }
+                  console.log("prev: ", prev.GetRide.ride);
+                  console.log("subscriptionData: ", subscriptionData.data.RideStatusSubscription);
+                }
               };
-              subscribeToMore(subscriptionOptions);
+              subscribeToMore(subscribeOptions);
               return (
                 <RideUpdateMutation
                   mutation={UPDATE_RIDE_STATUS}
-                  refetchQueries={[{ query: GET_RIDE }]}
+                  refetchQueries={[{ query: GET_RIDE, variables: { rideId } }]}
                 >
                   {updateRideFn => (
                     <RidePresenter
@@ -68,13 +75,13 @@ class RideContainer extends React.Component<IProps> {
     );
   }
 
-  public handleRideUpdate = (prev, { subscriptionData }) => {
-    if (!subscriptionData.data) {
-      return prev;
-    }
-    console.log(`prev: ${prev}`);
-    console.log(`subscriptionData: ${subscriptionData}`);
-  };
+  // public handleSubscriptionUpdate = (prev, { subscriptionData }) => {
+  //   if (!subscriptionData.data) {
+  //     return prev;
+  //   }
+  //   console.log(`prev: ${prev}`);
+  //   console.log(`subscriptionData: ${subscriptionData}`);
+  // };
 }
 
 export default RideContainer;
