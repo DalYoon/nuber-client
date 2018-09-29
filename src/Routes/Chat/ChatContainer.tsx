@@ -1,3 +1,4 @@
+import { SubscribeToMoreOptions } from "apollo-boost";
 import React from "react";
 import { Mutation, MutationFn, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -10,7 +11,7 @@ import {
   sendMessage,
   sendMessageVariables
 } from "../../types/api";
-import { GET_CHAT, SEND_MESSAGE } from "./ChatQueries";
+import { GET_CHAT, MESSAGE_SUBSCRIPTION, SEND_MESSAGE } from "./ChatQueries";
 
 import ChatPresenter from "./ChatPresenter";
 
@@ -49,23 +50,30 @@ class ChatContainer extends React.Component<IProps, IState> {
       <ProfileQuery query={USER_PROFILE}>
         {({ data: userData }) => (
           <ChatQuery query={GET_CHAT} variables={{ chatId }}>
-            {({ data: chatData, loading }) => (
-              <SendMessageMutation mutation={SEND_MESSAGE}>
-                {sendMessageFn => {
-                  this.sendMessageFn = sendMessageFn;
-                  return (
-                    <ChatPresenter
-                      userData={userData}
-                      chatData={chatData}
-                      loading={loading}
-                      onInputChange={this.onInputChange}
-                      messageText={message}
-                      onSubmit={this.onSubmit}
-                    />
-                  );
-                }}
-              </SendMessageMutation>
-            )}
+            {({ data: chatData, loading, subscribeToMore }) => {
+              const subscibeOptions: SubscribeToMoreOptions = {
+                document: MESSAGE_SUBSCRIPTION,
+                updateQuery: this.handleMessageUpdate
+              };
+              subscribeToMore(subscibeOptions);
+              return (
+                <SendMessageMutation mutation={SEND_MESSAGE}>
+                  {sendMessageFn => {
+                    this.sendMessageFn = sendMessageFn;
+                    return (
+                      <ChatPresenter
+                        userData={userData}
+                        chatData={chatData}
+                        loading={loading}
+                        onInputChange={this.onInputChange}
+                        messageText={message}
+                        onSubmit={this.onSubmit}
+                      />
+                    );
+                  }}
+                </SendMessageMutation>
+              );
+            }}
           </ChatQuery>
         )}
       </ProfileQuery>
@@ -99,6 +107,24 @@ class ChatContainer extends React.Component<IProps, IState> {
       });
     }
     return;
+  };
+
+  public handleMessageUpdate = (prev, { subscriptionData }) => {
+    if (!subscriptionData.data) {
+      return prev;
+    }
+
+    const newObject = Object.assign({}, prev, {
+      GetChat: {
+        ...prev,
+        chat: {
+          ...prev.GetChat.chat,
+          messages: [...prev.GetChat.chat.messages, subscriptionData.data.MessageSubscription]
+        }
+      }
+    });
+
+    return newObject;
   };
 }
 
