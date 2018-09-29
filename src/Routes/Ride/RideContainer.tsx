@@ -1,14 +1,25 @@
+import { SubscribeToMoreOptions } from "apollo-boost";
 import React from "react";
-import { Query } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import { RouteComponentProps } from "react-router-dom";
-import { getRide, getRideVariables } from "../../types/api";
-import { GET_RIDE } from "./RideQueries";
+import {
+  getRide,
+  getRideVariables,
+  myProfile,
+  updateRide,
+  updateRideVariables
+} from "../../types/api";
+
+import { USER_PROFILE } from "../../sharedQueries";
+import { GET_RIDE, RIDE_SUBSCRIPTION, UPDATE_RIDE_STATUS } from "./RideQueries";
 
 import RidePresenter from "./RidePresenter";
 
 interface IProps extends RouteComponentProps<any> {}
 
 class RideQuery extends Query<getRide, getRideVariables> {}
+class ProfileQuery extends Query<myProfile> {}
+class RideUpdateMutation extends Mutation<updateRide, updateRideVariables> {}
 
 class RideContainer extends React.Component<IProps> {
   constructor(props: IProps) {
@@ -26,11 +37,44 @@ class RideContainer extends React.Component<IProps> {
       }
     } = this.props;
     return (
-      <RideQuery query={GET_RIDE} variables={{ rideId }}>
-        {data => <RidePresenter />}
-      </RideQuery>
+      <ProfileQuery query={USER_PROFILE}>
+        {({ data: userData }) => (
+          <RideQuery query={GET_RIDE} variables={{ rideId }}>
+            {({ data: rideData, loading, subscribeToMore }) => {
+              const subscriptionOptions: SubscribeToMoreOptions = {
+                document: RIDE_SUBSCRIPTION,
+                updateQuery: this.handleRideUpdate
+              };
+              subscribeToMore(subscriptionOptions);
+              return (
+                <RideUpdateMutation
+                  mutation={UPDATE_RIDE_STATUS}
+                  refetchQueries={[{ query: GET_RIDE }]}
+                >
+                  {updateRideFn => (
+                    <RidePresenter
+                      rideData={rideData}
+                      userData={userData}
+                      loading={loading}
+                      updateRideFn={updateRideFn}
+                    />
+                  )}
+                </RideUpdateMutation>
+              );
+            }}
+          </RideQuery>
+        )}
+      </ProfileQuery>
     );
   }
+
+  public handleRideUpdate = (prev, { subscriptionData }) => {
+    if (!subscriptionData.data) {
+      return prev;
+    }
+    console.log(`prev: ${prev}`);
+    console.log(`subscriptionData: ${subscriptionData}`);
+  };
 }
 
 export default RideContainer;
