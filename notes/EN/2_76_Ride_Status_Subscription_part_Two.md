@@ -1,8 +1,8 @@
-# 2.75 Ride Status Subscription
+# 2.76 Ride Status Subscription part Two
 
 ## section.log
 
-- make `Ride` page
+- finish `Ride` page
 
 ## tips
 
