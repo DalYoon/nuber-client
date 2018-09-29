@@ -99,6 +99,9 @@ class ChatContainer extends React.Component<IProps, IState> {
     } = this.props;
 
     if (message !== "") {
+      this.setState({
+        message: ""
+      });
       this.sendMessageFn({
         variables: {
           chatId,
@@ -114,12 +117,28 @@ class ChatContainer extends React.Component<IProps, IState> {
       return prev;
     }
 
+    const {
+      data: { MessageSubscription }
+    } = subscriptionData;
+    const {
+      GetChat: {
+        chat: { messages }
+      }
+    } = prev;
+
+    const newMessageId = MessageSubscription.id;
+    const lastMessageId = messages[messages.length - 1].id;
+
+    if (newMessageId === lastMessageId) {
+      return;
+    }
+
     const newObject = Object.assign({}, prev, {
       GetChat: {
         ...prev,
         chat: {
           ...prev.GetChat.chat,
-          messages: [...prev.GetChat.chat.messages, subscriptionData.data.MessageSubscription]
+          messages: [...prev.GetChat.chat.messages, MessageSubscription]
         }
       }
     });
