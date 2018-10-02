@@ -1,6 +1,5 @@
 import React from "react";
 import { MutationFn } from "react-apollo";
-import { Link } from "react-router-dom";
 import styled from "../../typed-components";
 
 import { getRide, myProfile } from "../../types/api";
@@ -50,13 +49,15 @@ interface IProps {
   userData?: myProfile;
   loading: boolean;
   updateRideFn: MutationFn;
+  goToChat: (chatId) => void;
 }
 
 const RidePresenter: React.SFC<IProps> = ({
   rideData: { GetRide: { ride = null } = {} } = {},
   userData: { GetMyProfile: { user = null } = {} } = {},
   loading,
-  updateRideFn
+  updateRideFn,
+  goToChat
 }) => (
   <Container>
     {ride &&
@@ -123,9 +124,7 @@ const RidePresenter: React.SFC<IProps> = ({
               ride.driver.id === user.id &&
               ride.status === "" && <ExtendedButton value={"Finished"} onClick={() => null} />}
             {ride.status !== "REQUESTING" && (
-              <Link to={`/chat/${ride.chatId}`}>
-                <ExtendedButton value={"Chat"} onClick={null} />
-              </Link>
+              <ExtendedButton value={"Chat"} onClick={() => goToChat({ chatId: ride.chatId })} />
             )}
           </Buttons>
         </React.Fragment>

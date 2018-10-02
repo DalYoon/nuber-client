@@ -43,21 +43,7 @@ class RideContainer extends React.Component<IProps> {
             {({ data: rideData, loading, subscribeToMore }) => {
               const subscribeOptions: SubscribeToMoreOptions = {
                 document: RIDE_SUBSCRIPTION,
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) {
-                    return prev;
-                  }
-
-                  const {
-                    data: {
-                      RideStatusSubscription: { status }
-                    }
-                  } = subscriptionData;
-
-                  if (status === "FINISHED") {
-                    window.location.href = "/";
-                  }
-                }
+                updateQuery: this.handleSubscriptionUpdate
               };
               subscribeToMore(subscribeOptions);
               return (
@@ -71,6 +57,7 @@ class RideContainer extends React.Component<IProps> {
                       userData={userData}
                       loading={loading}
                       updateRideFn={updateRideFn}
+                      goToChat={this.goToChat}
                     />
                   )}
                 </RideUpdateMutation>
@@ -82,13 +69,35 @@ class RideContainer extends React.Component<IProps> {
     );
   }
 
-  // public handleSubscriptionUpdate = (prev, { subscriptionData }) => {
-  //   if (!subscriptionData.data) {
-  //     return prev;
-  //   }
-  //   console.log(`prev: ${prev}`);
-  //   console.log(`subscriptionData: ${subscriptionData}`);
-  // };
+  public handleSubscriptionUpdate = (prev, { subscriptionData }) => {
+    if (!subscriptionData.data) {
+      return prev;
+    }
+
+    const {
+      data: {
+        RideStatusSubscription: { status }
+      }
+    } = subscriptionData;
+
+    if (status === "FINISHED") {
+      window.location.href = "/";
+    }
+  };
+
+  public goToChat = ({ chatId }) => {
+    const {
+      history,
+      match: { url }
+    } = this.props;
+
+    history.push({
+      pathname: `/chat/${chatId}`,
+      state: {
+        rideUrl: url
+      }
+    });
+  };
 }
 
 export default RideContainer;

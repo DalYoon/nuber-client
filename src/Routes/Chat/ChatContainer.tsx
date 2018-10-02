@@ -41,6 +41,9 @@ class ChatContainer extends React.Component<IProps, IState> {
 
   public render() {
     const {
+      location: {
+        state: { rideUrl }
+      },
       match: {
         params: { chatId }
       }
@@ -68,6 +71,7 @@ class ChatContainer extends React.Component<IProps, IState> {
                         onInputChange={this.onInputChange}
                         messageText={message}
                         onSubmit={this.onSubmit}
+                        rideUrl={rideUrl}
                       />
                     );
                   }}

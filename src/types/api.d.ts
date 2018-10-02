@@ -496,6 +496,71 @@ export interface facebookConnectVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getRideHistory
+// ====================================================
+
+export interface getRideHistory_GetRideHistory_ridesAsPassenger_passenger {
+  __typename: "User";
+  fullName: string | null;
+}
+
+export interface getRideHistory_GetRideHistory_ridesAsPassenger_driver {
+  __typename: "User";
+  fullName: string | null;
+}
+
+export interface getRideHistory_GetRideHistory_ridesAsPassenger {
+  __typename: "Ride";
+  id: number;
+  status: string;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  passenger: getRideHistory_GetRideHistory_ridesAsPassenger_passenger;
+  driver: getRideHistory_GetRideHistory_ridesAsPassenger_driver | null;
+  updatedAt: string | null;
+}
+
+export interface getRideHistory_GetRideHistory_ridesAsDriver_passenger {
+  __typename: "User";
+  fullName: string | null;
+}
+
+export interface getRideHistory_GetRideHistory_ridesAsDriver_driver {
+  __typename: "User";
+  fullName: string | null;
+}
+
+export interface getRideHistory_GetRideHistory_ridesAsDriver {
+  __typename: "Ride";
+  id: number;
+  status: string;
+  pickUpAddress: string;
+  dropOffAddress: string;
+  price: number;
+  distance: string;
+  passenger: getRideHistory_GetRideHistory_ridesAsDriver_passenger;
+  driver: getRideHistory_GetRideHistory_ridesAsDriver_driver | null;
+  updatedAt: string | null;
+}
+
+export interface getRideHistory_GetRideHistory {
+  __typename: "GetRideHistoryResponse";
+  ok: boolean;
+  error: string | null;
+  ridesAsPassenger: (getRideHistory_GetRideHistory_ridesAsPassenger | null)[] | null;
+  ridesAsDriver: (getRideHistory_GetRideHistory_ridesAsDriver | null)[] | null;
+}
+
+export interface getRideHistory {
+  GetRideHistory: getRideHistory_GetRideHistory;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: verifyPhone
 // ====================================================
 

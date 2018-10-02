@@ -1,4 +1,5 @@
 import React from "react";
+import Helmet from "react-helmet";
 import styled from "../../typed-components";
 
 import { getChat, myProfile } from "../../types/api";
@@ -29,6 +30,7 @@ interface IProps {
   loading: boolean;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
+  rideUrl: string;
 }
 
 const ChatPresenter: React.SFC<IProps> = ({
@@ -37,10 +39,14 @@ const ChatPresenter: React.SFC<IProps> = ({
   onInputChange,
   messageText,
   onSubmit,
-  loading
+  loading,
+  rideUrl
 }) => (
   <Container>
-    <Header title={"Chat"} />
+    <Helmet>
+      <title>Chat | Nuber</title>
+    </Helmet>
+    <Header title={"Chat"} backTo={rideUrl} />
     {!loading &&
       chat &&
       user && (

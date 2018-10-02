@@ -20,13 +20,13 @@ This note is created by taking the lecture below<br>
 
 ### Logged In:
 
-    - [ ] Home
-    - [ ] Ride
-    - [ ] Chat
+    - [x] Home
+    - [x] Ride
+    - [x] Chat
     - [x] Edit Account
     - [X] Settings
     - [x] Places
     - [x] Add Place
     - [x] Find Address
-    - [ ] Challenge: Ride History
+    - [x] Challenge: Ride History
     - [ ] Challenge: Email Signin
