@@ -11,6 +11,8 @@ import PhoneLogin from "../../Routes/PhoneLogin";
 import Places from "../../Routes/Places";
 import Ride from "../../Routes/Ride";
 import Settings from "../../Routes/Settings";
+import SignIn from "../../Routes/SignIn";
+import SignUp from "../../Routes/SignUp";
 import SocialLogIn from "../../Routes/SocialLogIn";
 import Trips from "../../Routes/Trips";
 import VerifyPhone from "../../Routes/VerifyPhone";
@@ -26,11 +28,13 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
 const LoggedOutRoutes: React.SFC = () => {
   return (
     <Switch>
-      <Route path={"/"} exact={true} component={Login} />
+      <Route path={"/nuber-client"} exact={true} component={Login} />
       <Route path={"/phone-login"} exact={true} component={PhoneLogin} />
       <Route path={"/verify-phone"} exact={true} component={VerifyPhone} />
       <Route path={"/social-login"} exact={true} component={SocialLogIn} />
-      <Redirect from={"*"} to={"/"} />
+      <Route path={"/sign-in"} exact={true} component={SignIn} />
+      <Route path={"/sign-up"} exact={true} component={SignUp} />
+      <Redirect from={"*"} to={"/nuber-client"} />
     </Switch>
   );
 };
@@ -38,7 +42,7 @@ const LoggedOutRoutes: React.SFC = () => {
 const LoggedInRoutes: React.SFC = () => {
   return (
     <Switch>
-      <Route path={"/"} exact={true} component={Home} />
+      <Route path={"/nuber-client"} exact={true} component={Home} />
       <Route path={"/ride/:rideId"} exact={true} component={Ride} />
       <Route path={"/edit-account"} exact={true} component={EditAccount} />
       <Route path={"/settings"} exact={true} component={Settings} />
@@ -47,7 +51,7 @@ const LoggedInRoutes: React.SFC = () => {
       <Route path={"/find-address"} exact={true} component={FindAddress} />
       <Route path={"/chat/:chatId"} exact={true} component={Chat} />
       <Route path={"/trips"} exact={true} component={Trips} />
-      <Redirect from={"*"} to={"/"} />
+      <Redirect from={"*"} to={"/nuber-client"} />
     </Switch>
   );
 };

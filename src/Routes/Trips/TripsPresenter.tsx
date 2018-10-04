@@ -42,14 +42,12 @@ const TripsPresenter: React.SFC<IProps> = ({
   selectPassengerOption,
   rideHistoryData: { GetRideHistory: { ridesAsDriver = [], ridesAsPassenger = [] } = {} } = {}
 }) => {
-  console.log(ridesAsDriver);
-  console.log(ridesAsPassenger);
   return (
     <Container>
       <Helmet>
         <title>My Trips | Nuber</title>
       </Helmet>
-      <Header title={"My Trips"} backTo={"/"} />
+      <Header title={"My Trips"} backTo={"/nuber-client"} />
       <ToggleOptions>
         <Btn onClick={selectDriverOption} selected={selectedOption === 0}>
           Drivers

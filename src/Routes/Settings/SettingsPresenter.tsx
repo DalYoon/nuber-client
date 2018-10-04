@@ -62,7 +62,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Settings | Nuber</title>
     </Helmet>
-    <Header title={"Account Settings"} backTo={"/"} />
+    <Header title={"Account Settings"} backTo={"/nuber-client"} />
     <Container>
       <GridLink to="/edit-account">
         {!userDataLoading &&

@@ -29,7 +29,7 @@ const PlacesPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Places | Nuber</title>
     </Helmet>
-    <Header title="Places" backTo="/" />
+    <Header title="Places" backTo="/nuber-client" />
     <Container>
       {!loading &&
         places &&

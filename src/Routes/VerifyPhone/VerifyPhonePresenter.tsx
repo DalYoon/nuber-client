@@ -5,6 +5,7 @@ import Button from "../../Components/Button";
 import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
+import SkipPopUp from "../../Components/SkipPopUp";
 import styled from "../../typed-components";
 
 const Container = styled.div``;
@@ -37,6 +38,7 @@ const VerifyPhonePresenter: React.SFC<IProps> = ({
       </Helmet>
       <Header backTo={"/phone-login"} title={"Verify Phone Number"} />
       <ExtendedForm submitFn={onSubmit}>
+        <SkipPopUp />
         <ExtendedInput
           value={verificationKey}
           placeholder={"Enter Verification Code"}

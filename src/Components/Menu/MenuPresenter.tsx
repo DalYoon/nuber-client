@@ -59,6 +59,15 @@ const Grid = styled.div`
   align-items: center;
 `;
 
+const LogOutBtn = styled.div`
+  font-size: 22px;
+  display: block;
+  margin-left: 15px;
+  margin-bottom: 25px;
+  font-weight: 400;
+  cursor: pointer;
+`;
+
 interface IToggleProps {
   isDriving: boolean;
 }
@@ -78,12 +87,14 @@ interface IProps {
   data?: myProfile;
   loading: boolean;
   toggleDrivingFn: MutationFn;
+  handleUserLogOut: () => void;
 }
 
 const MenuPresenter: React.SFC<IProps> = ({
   data: { GetMyProfile: { user = null } = {} } = {},
   loading,
-  toggleDrivingFn
+  toggleDrivingFn,
+  handleUserLogOut
 }) => {
   return (
     <Container>
@@ -105,6 +116,7 @@ const MenuPresenter: React.SFC<IProps> = ({
             </Header>
             <SLink to="/trips">Your Trips</SLink>
             <SLink to="/settings">Settings</SLink>
+            <LogOutBtn onClick={() => handleUserLogOut()}>Log Out</LogOutBtn>
             <ToggleDriving onClick={toggleDrivingFn} isDriving={user.isDriving}>
               {user.isDriving ? "Stop driving" : "Start driving"}
             </ToggleDriving>

@@ -44,7 +44,7 @@ const EditAccountPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Edit Account | Number</title>
     </Helmet>
-    <Header title={"Edit Account"} backTo={"/"} />
+    <Header title={"Edit Account"} backTo={"/nuber-client"} />
     <ExtendedForm submitFn={onSubmit}>
       <PhotoInput uploading={uploading} fileUrl={profilePhoto} onChange={onInputChange} />
       <ExtendedInput

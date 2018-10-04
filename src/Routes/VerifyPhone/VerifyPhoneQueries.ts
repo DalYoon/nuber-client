@@ -9,3 +9,12 @@ export const VERIFY_PHONE = gql`
     }
   }
 `;
+
+export const SKIP_VERIFICATION = gql`
+  mutation skipVerification($phoneNumber: String!) {
+    SkipPhoneVerification(phoneNumber: $phoneNumber) {
+      ok
+      error
+    }
+  }
+`;

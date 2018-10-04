@@ -42,7 +42,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Add Place | Nuber</title>
     </Helmet>
-    <Header title="Add Place" backTo="/" />
+    <Header title="Add Place" backTo="/nuber-client" />
     <Container>
       <Form submitFn={onSubmitFn}>
         <ExtendedInput

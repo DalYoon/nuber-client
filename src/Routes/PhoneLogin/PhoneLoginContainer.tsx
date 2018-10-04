@@ -25,31 +25,12 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
   };
 
   public render() {
-    const { history } = this.props;
     const { countryCode, phoneNumber } = this.state;
     return (
       <PhoneSignInMutation
         mutation={PHONE_SIGN_IN}
         variables={{ phoneNumber: `${countryCode}${phoneNumber}` }}
-        onCompleted={data => {
-          const { StartPhoneVerification } = data;
-          const phone = `${countryCode}${phoneNumber}`;
-
-          if (StartPhoneVerification.ok) {
-            toast.success("We Sent SMS Message For You, Redirecting...");
-
-            setTimeout(() => {
-              history.push({
-                pathname: "/verify-phone",
-                state: {
-                  phoneNumber: phone
-                }
-              });
-            }, 2000);
-          } else {
-            toast.error(StartPhoneVerification.error);
-          }
-        }}
+        onCompleted={this.handlePhoneSigninComplete}
       >
         {(phoneMutation, { loading }) => {
           this.phoneMutation = phoneMutation;
@@ -87,6 +68,29 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
       this.phoneMutation();
     } else {
       toast.error("please write a phone number!");
+    }
+  };
+
+  public handlePhoneSigninComplete = data => {
+    const { StartPhoneVerification } = data;
+    const { countryCode, phoneNumber } = this.state;
+    const { history } = this.props;
+
+    const phone = `${countryCode}${phoneNumber}`;
+
+    if (StartPhoneVerification.ok) {
+      toast.success("We Sent SMS Message For You, Redirecting...");
+
+      setTimeout(() => {
+        history.push({
+          pathname: "/verify-phone",
+          state: {
+            phoneNumber: phone
+          }
+        });
+      }, 2000);
+    } else {
+      toast.error(StartPhoneVerification.error);
     }
   };
 }

@@ -40,7 +40,7 @@ const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
       <title>Social Login | Nuber</title>
     </Helmet>
     <Title>Choose an account</Title>
-    <BackArrowExtended backTo={"/"} />
+    <BackArrowExtended backTo={"/nuber-client"} />
     <FacebookLogin
       appId="704919473188382"
       autoLoad={false}

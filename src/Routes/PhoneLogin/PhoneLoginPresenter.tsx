@@ -72,7 +72,7 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
     <Helmet>
       <title>Phone Login | Number</title>
     </Helmet>
-    <BackArrowExtended backTo={"/"} />
+    <BackArrowExtended backTo={"/nuber-client"} />
     <Title>Enter your mobile number</Title>
     <CountrySelect value={countryCode} name={"countryCode"} onChange={onInputChange}>
       {countries.map((country, index) => (
@@ -83,7 +83,7 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
     </CountrySelect>
     <Form onSubmit={onSubmit}>
       <Input
-        placeholder={"053 690 2129"}
+        placeholder={"01012345678"}
         name={"phoneNumber"}
         value={phoneNumber}
         onChange={onInputChange}

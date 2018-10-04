@@ -33,26 +33,26 @@ const Title = styled.h1``;
 
 const Footer = styled.div``;
 
-const Subtitle = styled.h2`
-  font-size: 30px;
-`;
+// const Subtitle = styled.h2`
+//   font-size: 30px;
+// `;
 
-const FakeInput = styled.div`
-  margin: 50px 0px;
-  font-size: 25px;
-  font-weight: 300;
-`;
+// const FakeInput = styled.div`
+//   margin: 50px 0px;
+//   font-size: 25px;
+//   font-weight: 300;
+// `;
 
-const PhoneLogin = styled.div`
-  padding: 20px;
-`;
+// const PhoneLogin = styled.div`
+//   padding: 20px;
+// `;
 
-const Grey = styled.span`
-  color: ${props => props.theme.greyColor};
-  margin-left: 10px;
-`;
+// const Grey = styled.span`
+//   color: ${props => props.theme.greyColor};
+//   margin-left: 10px;
+// `;
 
-const SocialLogin = styled.div`
+const LoginOptions = styled.div`
   border-top: 1px solid ${props => props.theme.greyColor};
   padding: 30px 20px;
 `;
@@ -74,6 +74,10 @@ const LoginPresenter: React.SFC<IProps> = () => (
       </Logo>
     </Header>
     <Footer>
+      {/* 
+      
+      original code
+
       <Link to="/phone-login">
         <PhoneLogin>
           <Subtitle>Get moving with Nuber</Subtitle>
@@ -81,11 +85,25 @@ const LoginPresenter: React.SFC<IProps> = () => (
             🇰🇷 +82 <Grey>Enter your mobile number</Grey>
           </FakeInput>
         </PhoneLogin>
+      </Link> 
+      
+      */}
+
+      <Link to="/sign-in">
+        <LoginOptions>
+          <SocialLink>Sign in</SocialLink>
+        </LoginOptions>
       </Link>
+      <Link to="/phone-login">
+        <LoginOptions>
+          <SocialLink>Sign up</SocialLink>
+        </LoginOptions>
+      </Link>
+
       <Link to="/social-login">
-        <SocialLogin>
-          <SocialLink>Or connect with social</SocialLink>
-        </SocialLogin>
+        <LoginOptions>
+          <SocialLink>Or connect with social (not working~)</SocialLink>
+        </LoginOptions>
       </Link>
     </Footer>
   </Container>

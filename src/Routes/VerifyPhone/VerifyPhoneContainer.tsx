@@ -1,11 +1,16 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
-import { verifyPhone, verifyPhoneVariables } from "../../types/api";
+import {
+  skipVerification,
+  skipVerificationVariables,
+  verifyPhone,
+  verifyPhoneVariables
+} from "../../types/api";
 
 import { LOG_USER_IN } from "../../sharedQueries.local";
-import { VERIFY_PHONE } from "./VerifyPhoneQueries";
+import { SKIP_VERIFICATION, VERIFY_PHONE } from "./VerifyPhoneQueries";
 
 import VerifyPhonePresenter from "./VerifyPhonePresenter";
 
@@ -17,8 +22,11 @@ interface IState {
 interface IProps extends RouteComponentProps<any> {}
 
 class VerifyMutation extends Mutation<verifyPhone, verifyPhoneVariables> {}
+class SkipVerificationMutation extends Mutation<skipVerification, skipVerificationVariables> {}
 
 class VerifyPhoneContainer extends React.Component<IProps, IState> {
+  public logUserIn: MutationFn;
+
   constructor(props: IProps) {
     super(props);
 
@@ -28,7 +36,7 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
 
     this.state = {
       phoneNumber: props.location.state.phoneNumber,
-      verificationKey: ""
+      verificationKey: "whatever"
     };
   }
 
@@ -36,42 +44,40 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
     const { verificationKey, phoneNumber } = this.state;
     return (
       <Mutation mutation={LOG_USER_IN}>
-        {logUserIn => (
-          <VerifyMutation
-            mutation={VERIFY_PHONE}
-            variables={{
-              key: verificationKey,
-              phoneNumber
-            }}
-            onCompleted={data => {
-              const { CompletePhoneVerification } = data;
-
-              if (CompletePhoneVerification.ok) {
-                if (CompletePhoneVerification.token) {
-                  logUserIn({
-                    variables: {
-                      token: CompletePhoneVerification.token
-                    }
-                  });
-                }
-                toast.success("verification has been done");
-              } else {
-                toast.error(CompletePhoneVerification.error);
-              }
-            }}
-          >
-            {(mutation, { loading }) => {
-              return (
-                <VerifyPhonePresenter
-                  onSubmit={mutation}
-                  onChange={this.onInputChange}
-                  verificationKey={verificationKey}
-                  loading={loading}
-                />
-              );
-            }}
-          </VerifyMutation>
-        )}
+        {logUserIn => {
+          this.logUserIn = logUserIn;
+          return (
+            <VerifyMutation
+              mutation={VERIFY_PHONE}
+              variables={{
+                key: verificationKey,
+                phoneNumber
+              }}
+              // onCompleted={this.handleVerifyCompleted}
+            >
+              {(mutation, { loading }) => {
+                return (
+                  <SkipVerificationMutation
+                    mutation={SKIP_VERIFICATION}
+                    variables={{ phoneNumber }}
+                    onCompleted={this.handleVerifyCompleted}
+                  >
+                    {skipVerificationFn => {
+                      return (
+                        <VerifyPhonePresenter
+                          onSubmit={skipVerificationFn}
+                          onChange={this.onInputChange}
+                          verificationKey={verificationKey}
+                          loading={loading}
+                        />
+                      );
+                    }}
+                  </SkipVerificationMutation>
+                );
+              }}
+            </VerifyMutation>
+          );
+        }}
       </Mutation>
     );
   }
@@ -85,6 +91,46 @@ class VerifyPhoneContainer extends React.Component<IProps, IState> {
       [name]: value
     } as any);
   };
+
+  public handleVerifyCompleted = data => {
+    const { SkipPhoneVerification } = data;
+    const { history } = this.props;
+    const { phoneNumber } = this.state;
+
+    if (SkipPhoneVerification) {
+      if (SkipPhoneVerification.ok) {
+        toast.success("Yey! Verification completed!");
+
+        setTimeout(() => {
+          history.push({
+            pathname: "/sign-up",
+            state: {
+              phoneNumber
+            }
+          });
+        }, 2000);
+      } else {
+        toast.error(SkipPhoneVerification.error);
+      }
+    }
+  };
+
+  // public handleVerifyCompleted = data => {
+  //   const { CompletePhoneVerification } = data;
+
+  //   if (CompletePhoneVerification.ok) {
+  //     if (CompletePhoneVerification.token) {
+  //       this.logUserIn({
+  //         variables: {
+  //           token: CompletePhoneVerification.token
+  //         }
+  //       });
+  //     }
+  //     toast.success("verification has been done");
+  //   } else {
+  //     toast.error(CompletePhoneVerification.error);
+  //   }
+  // };
 }
 
 export default VerifyPhoneContainer;
